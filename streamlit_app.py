@@ -3,6 +3,8 @@ import subprocess
 
 subprocess.call(['pip', 'install', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git', '--no-deps'])
 
+subprocess.call(['pip', 'freeze'])
+
 
 st.title('Grammar Correction Demo')
 
