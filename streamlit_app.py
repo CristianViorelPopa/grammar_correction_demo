@@ -14,7 +14,7 @@ def setup_language_tool():
 
 # initial setup
 with st.spinner(text='In progress'):
-    tool = setup_langauge_tool()
+    tool = setup_language_tool()
 
 # user form
 with st.form(key='language_tool_form'):
