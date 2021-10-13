@@ -1,1 +1,3 @@
 language_tool_python
+torch
+git+https://github.com/PrithivirajDamodaran/Gramformer.git
