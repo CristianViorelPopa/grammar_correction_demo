@@ -5,6 +5,6 @@ python-Levenshtein==0.12.2
 fuzzywuzzy==0.18.0
 tokenizers
 fsspec==2021.5.0
-lm-scorer==0.4.2 --install-option="--no-deps"
+lm-scorer==0.4.2
 errant
 torch
