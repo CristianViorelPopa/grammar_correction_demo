@@ -1,7 +1,7 @@
 import streamlit as st
 import subprocess
 
-subprocess.call(['python3', '-m', 'pip', 'install', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git'])
+subprocess.call(['python3', '-m', 'pip', 'install', '--use-deprecated=legacy-resolver', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git'])
 
 # subprocess.call(['python3', '-m', 'pip', 'freeze'])
 
