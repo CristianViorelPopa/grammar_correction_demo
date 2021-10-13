@@ -1,2 +1,10 @@
 language_tool_python
-git+https://github.com/PrithivirajDamodaran/Gramformer.git
+transformers
+sentencepiece==0.1.95
+python-Levenshtein==0.12.2
+fuzzywuzzy==0.18.0
+tokenizers
+fsspec==2021.5.0
+lm-scorer==0.4.2
+errant
+torch
