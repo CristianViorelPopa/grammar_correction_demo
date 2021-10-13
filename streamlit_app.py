@@ -1,9 +1,9 @@
 import streamlit as st
 import subprocess
 
-subprocess.call(['pip', 'install', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git', '--no-deps'])
+subprocess.call(['python', '-m', 'pip', 'install', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git', '--no-deps'])
 
-subprocess.call(['pip', 'freeze'])
+subprocess.call(['python', '-m', 'pip', 'freeze'])
 
 
 st.title('Grammar Correction Demo')
