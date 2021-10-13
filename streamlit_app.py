@@ -18,24 +18,24 @@ with st.spinner(text='In progress'):
     tool = language_tool_python.LanguageTool('en-US')
 
 # user form
-lt_form = st.form(key='language_tool_form')
-lt_text = lt_form.text_input('Enter your text here:')
-lt_submit = lt_form.form_submit_button('Find mistakes')
+with st.form(key='language_tool_form'):
+    lt_text = st.text_input('Enter your text here:')
+    lt_submit = st.form_submit_button('Find mistakes')
 
-# on form submission
-if lt_submit:
-    with st.spinner(text='In progress'):
-        lt_matches = tool.check(lt_text)
-        lt_corrected_text = tool.correct(lt_text)
+    # on form submission
+    if lt_submit:
+        with st.spinner(text='In progress'):
+            lt_matches = tool.check(lt_text)
+            lt_corrected_text = tool.correct(lt_text)
 
-        st.success('Done! There were ' + str(len(lt_matches)) + ' mistakes found in the text:')
-        for idx, match in enumerate(lt_matches):
-            st.write(str(idx + 1) + '. __' + match.ruleIssueType.upper() + '__: "' + match.message + '"')
+            st.success('Done! There were ' + str(len(lt_matches)) + ' mistakes found in the text:')
+            for idx, match in enumerate(lt_matches):
+                st.write(str(idx + 1) + '. __' + match.ruleIssueType.upper() + '__: "' + match.message + '"')
 
-        st.write('The corrected text is: __"' + lt_corrected_text + '"__')
+            st.write('The corrected text is: __"' + lt_corrected_text + '"__')
 
-        st.write('The raw output from LanguageTool:')
-        st.write(lt_matches)
+            st.write('The raw output from LanguageTool:')
+            st.write(lt_matches)
 
 
 st.write('# Gramformer')
@@ -369,15 +369,15 @@ num_candidates = st.number_input('Number of candidate corrections', min_value=1,
                                                    'more than one correction for the same sentence')
 
 # user form
-gf_form = st.form(key='gramformer')
-gf_text = gf_form.text_input('Enter your text here:')
-gf_submit = gf_form.form_submit_button('Correct the text')
+with st.form(key='gramformer'):
+    gf_text = st.text_input('Enter your text here:')
+    gf_submit = st.form_submit_button('Correct the text')
 
-# on form submission
-if lt_submit:
-    with st.spinner(text='In progress'):
-        corrections = gf.correct(gf_text, max_candidates=num_candidates)
+    # on form submission
+    if gf_submit:
+        with st.spinner(text='In progress'):
+            corrections = gf.correct(gf_text, max_candidates=num_candidates)
 
-        st.success('Done! These are the candidate corrections by the Gramformer model:')
-        for idx, correction in enumerate(corrections):
-            st.write(str(idx) + '. ' + correction[0])
+            st.success('Done! These are the candidate corrections by the Gramformer model:')
+            for idx, correction in enumerate(corrections):
+                st.write(str(idx) + '. ' + correction[0])
