@@ -24,18 +24,18 @@ with st.form(key='language_tool_form'):
 
     # on form submission
     if lt_submit:
-        with st.spinner(text='In progress'):
-            lt_matches = tool.check(lt_text)
-            lt_corrected_text = tool.correct(lt_text)
+        # with st.spinner(text='In progress'):
+        lt_matches = tool.check(lt_text)
+        lt_corrected_text = tool.correct(lt_text)
 
-            st.success('Done! There were ' + str(len(lt_matches)) + ' mistakes found in the text:')
-            for idx, match in enumerate(lt_matches):
-                st.write(str(idx + 1) + '. __' + match.ruleIssueType.upper() + '__: "' + match.message + '"')
+        st.success('Done! There were ' + str(len(lt_matches)) + ' mistakes found in the text:')
+        for idx, match in enumerate(lt_matches):
+            st.write(str(idx + 1) + '. __' + match.ruleIssueType.upper() + '__: "' + match.message + '"')
 
-            st.write('The corrected text is: __"' + lt_corrected_text + '"__')
+        st.write('The corrected text is: __"' + lt_corrected_text + '"__')
 
-            st.write('The raw output from LanguageTool:')
-            st.write(lt_matches)
+        st.write('The raw output from LanguageTool:')
+        st.write(lt_matches)
 
 
 st.write('# Gramformer')
@@ -375,9 +375,9 @@ with st.form(key='gramformer'):
 
     # on form submission
     if gf_submit:
-        with st.spinner(text='In progress'):
-            corrections = gf.correct(gf_text, max_candidates=num_candidates)
+        # with st.spinner(text='In progress'):
+        corrections = gf.correct(gf_text, max_candidates=num_candidates)
 
-            st.success('Done! These are the candidate corrections by the Gramformer model:')
-            for idx, correction in enumerate(corrections):
-                st.write(str(idx) + '. ' + correction[0])
+        st.success('Done! These are the candidate corrections by the Gramformer model:')
+        for idx, correction in enumerate(corrections):
+            st.write(str(idx) + '. ' + correction[0])
