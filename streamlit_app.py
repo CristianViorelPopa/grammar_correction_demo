@@ -1,4 +1,7 @@
 import streamlit as st
+from sys import platform
+st.write(platform)
+exit(0)
 import language_tool_python
 
 
