@@ -1,14 +1,14 @@
 import streamlit as st
-import urllib.request
-urllib.request.urlretrieve("https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz",
-                           "jdk-17_linux-x64_bin.tar.gz")
-import tarfile
-tar = tarfile.open('jdk-17_linux-x64_bin.tar.gz', 'r:gz')
-tar.extractall()
-tar.close()
-import os
-app_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'jdk-17_linux-x64_bin', 'bin')
-os.environ["PATH"] += os.pathsep + app_path
+# import urllib.request
+# urllib.request.urlretrieve("https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz",
+#                            "jdk-17_linux-x64_bin.tar.gz")
+# import tarfile
+# tar = tarfile.open('jdk-17_linux-x64_bin.tar.gz', 'r:gz')
+# tar.extractall()
+# tar.close()
+# import os
+# app_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'jdk-17_linux-x64_bin', 'bin')
+# os.environ["PATH"] += os.pathsep + app_path
 import language_tool_python
 
 
