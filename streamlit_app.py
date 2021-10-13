@@ -298,7 +298,7 @@ class Gramformer:
         from transformers import AutoModelForSeq2SeqLM
         # from lm_scorer.models.auto import AutoLMScorer as LMScorer
         import errant
-        self.annotator = errant.load('en_core_web_sm')
+        self.annotator = errant.load('en')
 
         if use_gpu:
             device = "cuda:0"
@@ -352,6 +352,9 @@ class Gramformer:
 
 # initial setup
 with st.spinner(text='In progress'):
+    import spacy
+
+
     def set_seed(seed):
         torch.manual_seed(seed)
         if torch.cuda.is_available():
