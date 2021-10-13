@@ -383,4 +383,4 @@ with st.form(key='gramformer'):
 
         st.success('Done! These are the candidate corrections by the Gramformer model:')
         for idx, correction in enumerate(corrections):
-            st.write(str(idx) + '. ' + correction[0])
+            st.write(str(idx + 1) + '. ' + correction[0])
