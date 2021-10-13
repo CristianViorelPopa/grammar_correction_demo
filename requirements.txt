@@ -1,5 +1,5 @@
 language_tool_python
-transformers>=2.9.0
+git+https://github.com/huggingface/transformers
 sentencepiece==0.1.95
 python-Levenshtein==0.12.2
 fuzzywuzzy==0.18.0
