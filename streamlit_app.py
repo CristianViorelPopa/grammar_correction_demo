@@ -3,7 +3,7 @@ import subprocess
 
 # subprocess.call(['pip', 'install', 'language_tool_python'])
 
-subprocess.call(['pip', 'install', '--use-deprecated=legacy-resolver', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git'])
+# subprocess.call(['pip', 'install', '--use-deprecated=legacy-resolver', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git'])
 
 # subprocess.call(['python3', '-m', 'pip', 'freeze'])
 
