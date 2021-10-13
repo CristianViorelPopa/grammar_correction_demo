@@ -1,11 +1,4 @@
 import streamlit as st
-import subprocess
-
-# subprocess.call(['pip', 'install', '--use-deprecated=legacy-resolver', 'lm-scorer'])
-
-# subprocess.call(['pip', 'install', '--use-deprecated=legacy-resolver', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git'])
-
-# subprocess.call(['python3', '-m', 'pip', 'freeze'])
 
 
 st.title('Grammar Correction Demo')
@@ -13,9 +6,15 @@ st.title('Grammar Correction Demo')
 st.write('# LanguageTool')
 import language_tool_python
 
+
+@st.cache(allow_output_mutation=True)
+def setup_language_tool():
+    return language_tool_python.LanguageTool('en-US')
+
+
 # initial setup
 with st.spinner(text='In progress'):
-    tool = language_tool_python.LanguageTool('en-US')
+    tool = setup_langauge_tool()
 
 # user form
 with st.form(key='language_tool_form'):
