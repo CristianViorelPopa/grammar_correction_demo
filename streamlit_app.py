@@ -298,7 +298,7 @@ class Gramformer:
         from transformers import AutoModelForSeq2SeqLM
         # from lm_scorer.models.auto import AutoLMScorer as LMScorer
         import errant
-        self.annotator = errant.load('en')
+        self.annotator = errant.load('en_core_web_sm')
 
         if use_gpu:
             device = "cuda:0"
