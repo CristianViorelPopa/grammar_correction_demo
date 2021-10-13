@@ -1,7 +1,4 @@
 import streamlit as st
-import jdk
-jdk.install('11')
-exit(0)
 import language_tool_python
 
 
