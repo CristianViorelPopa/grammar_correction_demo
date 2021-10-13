@@ -1,5 +1,11 @@
 import streamlit as st
+import subprocess
 
+subprocess.call(['pip', 'install', 'git+https://github.com/PrithivirajDamodaran/Gramformer.git', '--no-deps'])
+
+# Example
+if __name__ == '__main__':
+    install('argh')
 
 st.title('Grammar Correction Demo')
 
