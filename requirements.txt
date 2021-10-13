@@ -1,2 +1,2 @@
 language_tool_python
-git+https://github.com/PrithivirajDamodaran/Gramformer.git --install-option="--no-deps"
+git+https://github.com/PrithivirajDamodaran/Gramformer.git
