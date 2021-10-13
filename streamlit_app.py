@@ -352,8 +352,8 @@ class Gramformer:
 
 # initial setup
 with st.spinner(text='In progress'):
-    import spacy
-
+    from spacy.cli import download
+    download('en')
 
     def set_seed(seed):
         torch.manual_seed(seed)
