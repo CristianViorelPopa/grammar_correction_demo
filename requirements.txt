@@ -1,2 +1,2 @@
 language_tool_python
-git+https://github.com/PrithivirajDamodaran/Gramformer.git
+git+https://github.com/PrithivirajDamodaran/Gramformer.git==1.4
