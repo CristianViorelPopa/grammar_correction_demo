@@ -369,7 +369,7 @@ num_candidates = st.number_input('Number of candidate corrections', min_value=1,
                                                    'more than one correction for the same sentence')
 
 # user form
-gf_form = st.form(key='language_tool_form')
+gf_form = st.form(key='gramformer')
 gf_text = gf_form.text_input('Enter your text here:')
 gf_submit = gf_form.form_submit_button('Correct the text')
 
