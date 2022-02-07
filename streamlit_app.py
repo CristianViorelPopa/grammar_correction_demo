@@ -319,7 +319,7 @@ class Gramformer:
             # TODO
             print("TO BE IMPLEMENTED!!!")
 
-    def correct(self, input_sentence, max_candidates=1, num_beams=1):
+    def correct(self, input_sentence, max_candidates=1, num_beams=1, top_k=50, top_p=1.0, temperature=1.0):
         if self.model_loaded:
             correction_prefix = "gec: "
             input_sentence = correction_prefix + input_sentence
@@ -330,8 +330,9 @@ class Gramformer:
                 input_ids,
                 do_sample=True,
                 max_length=128,
-                top_k=50,
-                top_p=0.95,
+                top_k=top_k,
+                top_p=top_p,
+                temperature=temperature,
                 early_stopping=True,
                 num_return_sequences=max_candidates,
                 num_beams=num_beams)
@@ -373,7 +374,16 @@ num_candidates = st.number_input('Number of candidate corrections', min_value=1,
                                                    'more than one correction for the same sentence')
 
 num_beams = st.number_input('Number of beams for text generation', min_value=1, max_value=10, value=1,
-                                 format='%d', help='Usually the more beams the better. Here\'s an article to understand the mechanisms of beam search: https://towardsdatascience.com/an-intuitive-explanation-of-beam-search-9b1d744e7a0f')
+                            format='%d', help='Usually the more beams the better. Here\'s an article to understand the mechanisms of beam search: https://towardsdatascience.com/an-intuitive-explanation-of-beam-search-9b1d744e7a0f. Note that 1 beam means no beam search, so it\' a different way of generation. Here\'s another useful article: https://towardsdatascience.com/decoding-strategies-that-you-need-to-know-for-response-generation-ba95ee0faadc.')
+
+top_k = st.slider('Top-k', min_value=10, max_value=100, value=50,
+                 help='The model top-k parameter (read https://towardsdatascience.com/decoding-strategies-that-you-need-to-know-for-response-generation-ba95ee0faadc)')
+
+top_p = st.slider('Top-p', min_value=0.5, max_value=1.0, value=1.0,
+                 help='The model top-p parameter (read https://towardsdatascience.com/decoding-strategies-that-you-need-to-know-for-response-generation-ba95ee0faadc)')
+
+temperature = st.slider('Temperature', min_value=0.3, max_value=2.0, value=1.0,
+                        help='The model temperature parameter (read https://towardsdatascience.com/decoding-strategies-that-you-need-to-know-for-response-generation-ba95ee0faadc)')
 
 # user form
 with st.form(key='gramformer'):
@@ -383,7 +393,7 @@ with st.form(key='gramformer'):
     # on form submission
     if gf_submit:
         # with st.spinner(text='In progress'):
-        corrections = gf.correct(gf_text, max_candidates=num_candidates, num_beams=num_beams)
+        corrections = gf.correct(gf_text, max_candidates=num_candidates, num_beams=num_beams, top_k=top_k, top_p=top_p, temperature=temperature)
 
         st.success('Done! These are the candidate corrections by the Gramformer model:')
         for idx, correction in enumerate(corrections):
