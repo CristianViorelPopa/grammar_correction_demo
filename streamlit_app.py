@@ -319,7 +319,7 @@ class Gramformer:
             # TODO
             print("TO BE IMPLEMENTED!!!")
 
-    def correct(self, input_sentence, max_candidates=1):
+    def correct(self, input_sentence, max_candidates=1, num_beams=1):
         if self.model_loaded:
             correction_prefix = "gec: "
             input_sentence = correction_prefix + input_sentence
@@ -333,7 +333,8 @@ class Gramformer:
                 top_k=50,
                 top_p=0.95,
                 early_stopping=True,
-                num_return_sequences=max_candidates)
+                num_return_sequences=max_candidates,
+                num_beams=num_beams)
 
             corrected = set()
             for pred in preds:
@@ -371,6 +372,9 @@ num_candidates = st.number_input('Number of candidate corrections', min_value=1,
                                  format='%d', help='The Gramformer is a generative model that may produce '
                                                    'more than one correction for the same sentence')
 
+num_beams = st.number_input('Number of beams for text generation', min_value=1, max_value=10, value=1,
+                                 format='%d', help='Usually the more beams the better. Here\'s an article to understand the mechanisms of beam search: https://towardsdatascience.com/an-intuitive-explanation-of-beam-search-9b1d744e7a0f')
+
 # user form
 with st.form(key='gramformer'):
     gf_text = st.text_input('Enter your text here:')
@@ -379,7 +383,7 @@ with st.form(key='gramformer'):
     # on form submission
     if gf_submit:
         # with st.spinner(text='In progress'):
-        corrections = gf.correct(gf_text, max_candidates=num_candidates)
+        corrections = gf.correct(gf_text, max_candidates=num_candidates, num_beams=num_beams)
 
         st.success('Done! These are the candidate corrections by the Gramformer model:')
         for idx, correction in enumerate(corrections):
