@@ -3,38 +3,38 @@ import streamlit as st
 
 st.title('Grammar Correction Demo')
 
-st.write('# LanguageTool')
-import language_tool_python
+# st.write('# LanguageTool')
+# import language_tool_python
 
 
-@st.cache(allow_output_mutation=True)
-def setup_language_tool():
-    return language_tool_python.LanguageTool('en-US')
-
-
-# initial setup
-with st.spinner(text='In progress'):
-    tool = setup_language_tool()
-
-# user form
-with st.form(key='language_tool_form'):
-    lt_text = st.text_input('Enter your text here:')
-    lt_submit = st.form_submit_button('Find mistakes')
-
-    # on form submission
-    if lt_submit:
-        # with st.spinner(text='In progress'):
-        lt_matches = tool.check(lt_text)
-        lt_corrected_text = tool.correct(lt_text)
-
-        st.success('Done! There were ' + str(len(lt_matches)) + ' mistakes found in the text:')
-        for idx, match in enumerate(lt_matches):
-            st.write(str(idx + 1) + '. __' + match.ruleIssueType.upper() + '__: "' + match.message + '"')
-
-        st.write('The corrected text is: __"' + lt_corrected_text + '"__')
-
-        st.write('The raw output from LanguageTool:')
-        st.write(lt_matches)
+# @st.cache(allow_output_mutation=True)
+# def setup_language_tool():
+#     return language_tool_python.LanguageTool('en-US')
+#
+#
+# # initial setup
+# with st.spinner(text='In progress'):
+#     tool = setup_language_tool()
+#
+# # user form
+# with st.form(key='language_tool_form'):
+#     lt_text = st.text_input('Enter your text here:')
+#     lt_submit = st.form_submit_button('Find mistakes')
+#
+#     # on form submission
+#     if lt_submit:
+#         # with st.spinner(text='In progress'):
+#         lt_matches = tool.check(lt_text)
+#         lt_corrected_text = tool.correct(lt_text)
+#
+#         st.success('Done! There were ' + str(len(lt_matches)) + ' mistakes found in the text:')
+#         for idx, match in enumerate(lt_matches):
+#             st.write(str(idx + 1) + '. __' + match.ruleIssueType.upper() + '__: "' + match.message + '"')
+#
+#         st.write('The corrected text is: __"' + lt_corrected_text + '"__')
+#
+#         st.write('The raw output from LanguageTool:')
+#         st.write(lt_matches)
 
 
 st.write('# Gramformer')
