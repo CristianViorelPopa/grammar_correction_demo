@@ -37,7 +37,7 @@ st.title('Grammar Correction Demo')
 #         st.write(lt_matches)
 
 
-st.write('# Gramformer')
+st.write('# GEC-T5')
 
 # from gramformer import Gramformer
 import torch
@@ -288,89 +288,101 @@ class AutoLMScorer:
         classes = cls.MODEL_CLASSES
         models = map(lambda c: c.supported_model_names(), classes)
         return itertools.chain.from_iterable(models)
+#
+#
+# class Gramformer:
+#
+#     def __init__(self, models=1, use_gpu=False):
+#         from transformers import AutoTokenizer
+#         from transformers import AutoModelForSeq2SeqLM
+#         # from lm_scorer.models.auto import AutoLMScorer as LMScorer
+#         import errant
+#         self.annotator = errant.load('en')
+#
+#         if use_gpu:
+#             device = "cuda:0"
+#         else:
+#             device = "cpu"
+#         batch_size = 1
+#         self.scorer = AutoLMScorer.from_pretrained("gpt2", device=device, batch_size=batch_size)
+#         self.device = device
+#         correction_model_tag = "prithivida/grammar_error_correcter_v1"
+#         self.model_loaded = False
+#
+#         if models == 1:
+#             self.correction_tokenizer = AutoTokenizer.from_pretrained(correction_model_tag)
+#             self.correction_model = AutoModelForSeq2SeqLM.from_pretrained(correction_model_tag)
+#             self.correction_model = self.correction_model.to(device)
+#             self.model_loaded = True
+#             print("[Gramformer] Grammar error correct/highlight model loaded..")
+#         elif models == 2:
+#             # TODO
+#             print("TO BE IMPLEMENTED!!!")
+#
+#     def correct(self, input_sentence, max_candidates=1, num_beams=1, top_k=50, top_p=1.0, temperature=1.0):
+#         if self.model_loaded:
+#             correction_prefix = "gec: "
+#             input_sentence = correction_prefix + input_sentence
+#             input_ids = self.correction_tokenizer.encode(input_sentence, return_tensors='pt')
+#             input_ids = input_ids.to(self.device)
+#
+#             preds = self.correction_model.generate(
+#                 input_ids,
+#                 do_sample=True,
+#                 max_length=128,
+#                 top_k=top_k,
+#                 top_p=top_p,
+#                 temperature=temperature,
+#                 early_stopping=True,
+#                 num_return_sequences=max_candidates,
+#                 num_beams=num_beams)
+#
+#             corrected = set()
+#             for pred in preds:
+#                 corrected.add(self.correction_tokenizer.decode(pred, skip_special_tokens=True).strip())
+#
+#             corrected = list(corrected)
+#             scores = self.scorer.sentence_score(corrected, log=True)
+#             ranked_corrected = [(c, s) for c, s in zip(corrected, scores)]
+#             ranked_corrected.sort(key=lambda x: x[1], reverse=True)
+#             return ranked_corrected
+#         else:
+#             print("Model is not loaded")
+#             return None
+#
+#
+# @st.cache(allow_output_mutation=True)
+# def setup_gramformer():
+#     from spacy.cli import download
+#     download('en')
+#
+#     def set_seed(seed):
+#         torch.manual_seed(seed)
+#         if torch.cuda.is_available():
+#             torch.cuda.manual_seed_all(seed)
+#
+#     set_seed(42)
+#     return Gramformer(models=1, use_gpu=False)
 
 
-class Gramformer:
-
-    def __init__(self, models=1, use_gpu=False):
-        from transformers import AutoTokenizer
-        from transformers import AutoModelForSeq2SeqLM
-        # from lm_scorer.models.auto import AutoLMScorer as LMScorer
-        import errant
-        self.annotator = errant.load('en')
-
-        if use_gpu:
-            device = "cuda:0"
-        else:
-            device = "cpu"
-        batch_size = 1
-        self.scorer = AutoLMScorer.from_pretrained("gpt2", device=device, batch_size=batch_size)
-        self.device = device
-        correction_model_tag = "prithivida/grammar_error_correcter_v1"
-        self.model_loaded = False
-
-        if models == 1:
-            self.correction_tokenizer = AutoTokenizer.from_pretrained(correction_model_tag)
-            self.correction_model = AutoModelForSeq2SeqLM.from_pretrained(correction_model_tag)
-            self.correction_model = self.correction_model.to(device)
-            self.model_loaded = True
-            print("[Gramformer] Grammar error correct/highlight model loaded..")
-        elif models == 2:
-            # TODO
-            print("TO BE IMPLEMENTED!!!")
-
-    def correct(self, input_sentence, max_candidates=1, num_beams=1, top_k=50, top_p=1.0, temperature=1.0):
-        if self.model_loaded:
-            correction_prefix = "gec: "
-            input_sentence = correction_prefix + input_sentence
-            input_ids = self.correction_tokenizer.encode(input_sentence, return_tensors='pt')
-            input_ids = input_ids.to(self.device)
-
-            preds = self.correction_model.generate(
-                input_ids,
-                do_sample=True,
-                max_length=128,
-                top_k=top_k,
-                top_p=top_p,
-                temperature=temperature,
-                early_stopping=True,
-                num_return_sequences=max_candidates,
-                num_beams=num_beams)
-
-            corrected = set()
-            for pred in preds:
-                corrected.add(self.correction_tokenizer.decode(pred, skip_special_tokens=True).strip())
-
-            corrected = list(corrected)
-            scores = self.scorer.sentence_score(corrected, log=True)
-            ranked_corrected = [(c, s) for c, s in zip(corrected, scores)]
-            ranked_corrected.sort(key=lambda x: x[1], reverse=True)
-            return ranked_corrected
-        else:
-            print("Model is not loaded")
-            return None
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 
 
 @st.cache(allow_output_mutation=True)
-def setup_gramformer():
-    from spacy.cli import download
-    download('en')
-
-    def set_seed(seed):
-        torch.manual_seed(seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed_all(seed)
-
-    set_seed(42)
-    return Gramformer(models=1, use_gpu=False)
+def setup_gecT5():
+    model = T5ForConditionalGeneration.from_pretrained("Unbabel/gec-t5_small")
+    tokenizer = T5Tokenizer.from_pretrained('t5-small')
+    scorer = AutoLMScorer.from_pretrained("gpt2", device='cpu', batch_size=1)
+    return tokenizer, model, scorer
 
 
 # initial setup
 with st.spinner(text='In progress'):
-    gf = setup_gramformer()
+    # gf = setup_gramformer()
+    gect5_tokenizer, gect5_model, gect5_scorer = setup_gecT5()
 
 num_candidates = st.number_input('Number of candidate corrections', min_value=1, max_value=20, value=1,
-                                 format='%d', help='The Gramformer is a generative model that may produce '
+                                 format='%d', help='GEC-T5 is a generative model that may produce '
                                                    'more than one correction for the same sentence')
 
 num_beams = st.number_input('Number of beams for text generation', min_value=1, max_value=10, value=1,
@@ -387,14 +399,45 @@ temperature = st.slider('Temperature', min_value=0.3, max_value=2.0, value=1.0,
 
 # user form
 with st.form(key='gramformer'):
-    gf_text = st.text_input('Enter your text here:')
-    gf_submit = st.form_submit_button('Correct the text')
+    correction_text = st.text_input('Enter your text here:')
+    correction_submit = st.form_submit_button('Correct the text')
 
     # on form submission
-    if gf_submit:
+    if correction_submit:
         # with st.spinner(text='In progress'):
-        corrections = gf.correct(gf_text, max_candidates=num_candidates, num_beams=num_beams, top_k=top_k, top_p=top_p, temperature=temperature)
+        # corrections = gf.correct(gf_text, max_candidates=num_candidates, num_beams=num_beams, top_k=top_k, top_p=top_p, temperature=temperature)
 
-        st.success('Done! These are the candidate corrections by the Gramformer model:')
-        for idx, correction in enumerate(corrections):
+        tokenized_sentence = gect5_tokenizer('gec: ' + correction_text, max_length=128, truncation=True,
+                                             padding='max_length', return_tensors='pt')
+        tokenized_corrections = gect5_model.generate(
+            input_ids=tokenized_sentence.input_ids,
+            attention_mask=tokenized_sentence.attention_mask,
+            do_sample=True,
+            max_length=128,
+            top_k=top_k,
+            top_p=top_p,
+            temperature=temperature,
+            num_beams=num_beams,
+            early_stopping=True,
+            num_return_sequences=num_candidates
+        )
+
+        corrections = []
+        for tokenized_correction in tokenized_corrections:
+            corrections.append(gect5_tokenizer.decode(
+                tokenized_correction,
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=True
+            ))
+        corrections = list(set(corrections))
+
+        scores = []
+        for correction in corrections:
+            scores.append(gect5_scorer.sentence_score(correction, log=True))
+
+        ranked_corrected = [(c, s) for c, s in zip(corrections, scores)]
+        ranked_corrected.sort(key=lambda x: x[1], reverse=True)
+
+        st.success('Done! These are the candidate corrections by the GEC-T5 model:')
+        for idx, correction in enumerate(ranked_corrected):
             st.write(str(idx + 1) + '. "' + correction[0] + '" with a score of ' + str(correction[1]))
