@@ -7,3 +7,4 @@ tokenizers
 fsspec==2021.5.0
 errant
 torch
+click==7.1.2
