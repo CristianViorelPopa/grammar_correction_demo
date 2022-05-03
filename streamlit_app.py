@@ -398,7 +398,7 @@ temperature = st.slider('Temperature', min_value=0.3, max_value=2.0, value=1.0,
                         help='The model temperature parameter (read https://towardsdatascience.com/decoding-strategies-that-you-need-to-know-for-response-generation-ba95ee0faadc)')
 
 # user form
-with st.form(key='gramformer'):
+with st.form(key='gect5'):
     correction_text = st.text_input('Enter your text here:')
     correction_submit = st.form_submit_button('Correct the text')
 
